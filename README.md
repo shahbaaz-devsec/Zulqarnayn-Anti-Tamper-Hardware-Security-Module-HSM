@@ -183,8 +183,8 @@ If you use this codebase or mathematical architecture in your research or enterp
   title        = {Zulqarnayn Anti-Tamper Hardware Security Module: Software-Defined HSM Core (v6.3.0)},
   year         = {2026},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.XXXXXXX},
-  url          = {https://doi.org/10.5281/zenodo.XXXXXXX}
+  doi          = {10.5281/zenodo.21874349},
+  url          = {https://doi.org/10.5281/zenodo.21874349}
 }
 
 @techreport{ahmed_zulqarnayn_phase1_paper_2026,
@@ -192,8 +192,8 @@ If you use this codebase or mathematical architecture in your research or enterp
   title        = {The Zulqarnayn Architecture: A Mathematically Pinned, Thermodynamically Bound Software-Defined Hardware Security Module (Phase I)},
   year         = {2026},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.XXXXXXX},
-  url          = {https://doi.org/10.5281/zenodo.XXXXXXX}
+  doi          = {10.5281/zenodo.21874448},
+  url          = {https://doi.org/10.5281/zenodo.21874448}
 }
 
 ```
