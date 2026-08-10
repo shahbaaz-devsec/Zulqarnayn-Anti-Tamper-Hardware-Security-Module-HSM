@@ -63,25 +63,30 @@ This ensures perpetual active uptime while zeroizing instantly upon authenticate
 
 ---
 
-## 📊 Phase 1 Verification Evidence & Execution Logs
+### 📊 Phase 1 Verification Evidence & Execution Logs
 
-The following terminal logs capture the live production deployment, deterministic self-test execution, and successful split-knowledge orchestration of my Zulqarnayn Initium Core (v6.3.0):
+The following terminal logs capture the live production deployment, deterministic self-test execution, and successful split-knowledge orchestration of the Zulqarnayn Initium Core (`v6.3.0`):
 
 #### 1. Automated Production Deployment & Shell Eradication
+*Execution of `--auto-deploy` validating system dependencies, severing orphaned zombie processes, and provisioning isolated virtual environments (`/opt/zarqa/zulqarnayn_athsm/venv`).*  
+![Phase 1 Auto-Deploy 1](assets/images/ZLQ-IN-0-1.PNG)  
+![Phase 1 Auto-Deploy 2](assets/images/ZLQ-IN-0-2.PNG)  
+![Phase 1 Auto-Deploy 3](assets/images/ZLQ-IN-0-3.PNG)  
 
-*Execution of `--auto-deploy` validating system dependencies, severing orphaned zombie processes, and provisioning isolated virtual environments (`/opt/zarqa/zulqarnayn_athsm/venv`).*
+#### 2. Share Generation & Deterministic Self-Test Suite
+*Generation of the external Shamir share via Virtual Entanglement PUF derivations, followed by the `--self-test` suite verifying all 7 internal physics, mathematics, and cryptographic subsystems with zero failures.*  
+![Phase 1 Share Generation](assets/images/ZLQ-IN-0-4.PNG)  
+![Phase 1 Deterministic Self-Tests 1](assets/images/ZLQ-IN-0-5.PNG)  
+![Phase 1 Deterministic Self-Tests 2](assets/images/ZLQ-IN-0-6.PNG)  
 
-#### 2. Split-Knowledge Share Generation & Out-of-Band Delivery
+#### 3. Service Daemon Initialization & ECDHE Unlock
+*Systemd service status and direct verification of the `injector.py` execution, successfully decrypting the opaque session payload and mathematically reconstructing the Master Key.*  
+![Phase 1 Systemd Status](assets/images/ZLQ-IN-0-7.PNG)  
+![Phase 1 ECDHE Socket Injection](assets/images/ZLQ-IN-0-8.PNG)  
 
-*Generation of the external Shamir share via Virtual Entanglement PUF derivations, strictly output to the administrative terminal without system logging.*
-
-#### 3. Deterministic Pre-Flight Self-Test Suite
-
-*Execution of the `--self-test` suite verifying all 7 internal physics, mathematics, and cryptographic subsystems with zero failures.*
-
-#### 4. Asymmetric ECDHE Unlock & Active Lease Maintenance
-
-*Direct verification of the `injector.py` execution, successfully decrypting the opaque session payload and mathematically reconstructing the Master Key to enter the operational phase.*
+#### 4. Background Activity Lease & Telemetry Lifecycle
+*Live structured JSON logs demonstrating active sliding-window thermodynamic leases and continuous health-check cycles.*  
+![Phase 1 Continuous Activity Lease Logging](assets/images/ZLQ-IN-0-9.PNG)
 
 ---
 
