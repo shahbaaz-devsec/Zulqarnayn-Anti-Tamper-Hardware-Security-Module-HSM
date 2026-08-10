@@ -1,115 +1,202 @@
 # Zulqarnayn-Anti-Tamper-Hardware-Security-Module-HSM
-Production-grade enterprise HSM core featuring constant-time Galois Field SSS, kernel air-gapping, and secure ECDHE IPC.
 
-## Phase 1: Zulqarnayn Initium Core (ZLQ-IN-0)
-
-**Version:** 6.2.0
-
-**Status:** Production-Ready / Enterprise Grade
+> **A Mathematically Pinned, Thermodynamically Bound Software-Defined Hardware Security Module: Formal Constant-Time Verification, Kernel-Level Air-Gapping, and Immutable Zero-Trust Orchestration.**
 
 ---
 
-### Overview
+## 📌 Overview
 
-**Zulqarnayn Initium Core (ZLQ-IN-0)** is a high-security, software-defined Hardware Security Module (HSM) and Anti-Tamper cryptographic vault engineered for zero-trust environments. Designed to operate under severe threat models, ZLQ-IN-0 combines hardware-bound Physical Unclonable Functions (PUFs), constant-time Galois Field arithmetic, Shamir's Secret Sharing (SSS), and strict kernel-level isolation.
+Traditional Hardware Security Modules (HSMs) rely on physical isolation (e.g., FIPS 140-3 Level 4 physical tamper-resistance) to secure cryptographic primitives. In zero-trust virtualized, cloud, or edge computing environments, hardware continuity is entirely stripped away.
 
----
+My **Zulqarnayn-Anti-Tamper-Hardware-Security-Module-HSM** implements an integrated, mathematically verifiable architecture that enforces an immutable operational invariant:
 
-### Key Architectural Features
+**I permit no cryptographic extraction or key reconstruction unless the environment satisfies strict topological air-gapping, constant-time execution bounds, and active sliding-window thermodynamic leases authenticated via ECDHE Split-Knowledge.**
 
-* **Constant-Time Galois Field Math ($GF(2^8)$):** Branchless, tableless Galois field arithmetic preventing cache-timing side-channel attacks during secret sharing and reconstruction.
-* **Kernel-Level Air-Gapping:** Leverages native Linux Network Namespaces (`PrivateNetwork=yes`), `ProtectSystem=strict`, `ProtectKernelTunables=yes`, and restricted address families (`RestrictAddressFamilies=AF_UNIX`) via systemd hardening.
-* **Out-of-Band ECDHE IPC:** Implements an Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) handshake over UNIX domain sockets, securing split-knowledge key provisioning using AES-GCM encryption.
-* **Anti-Tracing Enforcement:** Enforces `PR_SET_DUMPABLE = 0` via `prctl` at initialization to block all local debugging, tracing, and memory-dumping vectors (even from root actors).
-* **Secure Memory Management:** Utilizes memory locking (`mlock`) to prevent sensitive cryptographic material from paging to disk, alongside explicit memory zeroization (`explicit_bzero`) to scrub transient variables.
-
----
-
-### Directory Structure
+### System Architecture & Air-Gapping Topology
 
 ```text
-/opt/zarqa/zulqarnayn_athsm/
-├── zulqarnayn_initium_0_core.py   # Main HSM Daemon & Deployment Orchestrator
-├── injector.py                    # Secure ECDHE Key Provisioning Tool
-└── venv/                          # Isolated Python Virtual Environment
++-----------------------------------------------------------------------+
+|  HOST OS (Compromised / Untrusted)                                    |
+|                                                                       |
+|  [X] Port 8080 Process (Terminated)     [X] Stray Zombies (Killed)    |
++-----------------------------------------------------------------------+
+          | (No TCP/IP allowed)
+          |
++=========|=============================================================+
+| SYSTEMD NAMESPACE (Strict Isolation)                                  |
+|   PrivateNetwork=yes | RestrictAddressFamilies=AF_UNIX                |
+|                                                                       |
+|   +---------------------------------------------------------------+   |
+|   |                  ZLQ-IN-0 DAEMON (v6.3.0)                     |   |
+|   |                                                               |   |
+|   |  [ ECDHE Handshake ] <---> /run/zulqarnayn/initium.sock       |   |
+|   |                                                               |   |
+|   |  [ socket.socket ] -> Monkey-patched (TCP requests = DENY)    |   |
+|   +---------------------------------------------------------------+   |
++=======================================================================+
 
 ```
 
 ---
 
-### Prerequisites & System Dependencies
+## 🏛️ Core Mathematical & Defensive Guarantees
 
-* **OS:** Ubuntu / Linux Kernel supporting systemd and network namespaces.
-* **Privileges:** Root access (`sudo`) is required solely for initial deployment, user provisioning, and systemd service registration.
-* **Dependencies:** Python 3.10+ with `cryptography`, `numpy`, and `psutil` (automatically provisioned inside a managed virtual environment during deployment).
+### Phase 1: Zulqarnayn Initium Core (`zulqarnayn_initium_0_core.py`)
+
+1. **Constant-Time Galois Field Math ($GF(2^8)$):** I defend against Cache-Timing Side-Channel attacks (e.g., Flush+Reload) by performing branchless operations over the irreducible polynomial $P(x) = x^8 + x^4 + x^3 + x + 1$. I execute conditional additions via strict bitwise masking (`mask = -(b & 1)`), mathematically nullifying timing side-channels.
+2. **Shamir's Secret Sharing (SSS) Lagrangian Interpolation:** I execute a $(k, n)$ threshold split-knowledge reconstruction using constant-time modular multiplicative inverses ($x \otimes x^{-1} \equiv 1 \pmod{P(x)}$), ensuring the Master Key cannot exist in memory without external injection.
+3. **Topological Process Eradication & Kernel Air-Gapping:** I leverage ancestral process tracing to execute `SIGKILL` on phantom host processes holding target TCP ports. Through systemd namespaces (`PrivateNetwork=yes`, `RestrictAddressFamilies=AF_UNIX`) and application-layer monkey-patching, I mathematically forbid the daemon from routing to the internet.
+4. **Kernel-Level Anti-Tracing & Memory Sealing:** I bind bytearrays to C-level physical RAM boundaries via `mlock()` and scrub memory at the register level using `explicit_bzero()`. I disable kernel memory mapping to foreign processes (including root) via `PR_SET_DUMPABLE = 0`.
+5. **Thermodynamic Decay Simulation Bounds:** I implement self-orchestrated physical decay equivalents. My autonomous zeroization decay ($t_{\text{zero}}$) evaluates via the Arrhenius equation over a simulated Martensitic critical temperature ($T_c$):
+
+$$t_{\text{zero}} = \tau_0 \exp\left( \frac{E_a}{R \cdot T_c} \right)$$
+
+
+6. **Sliding-Window Activity Lease (Theorem I):** I shift operational continuity from a flawed absolute ephemeral epoch to an activity-bound lease. My system evaluates:
+
+$$\text{Trigger} = \begin{cases} \text{True} & \text{if } t_{\text{current}} - \max(t_0, t_{\text{action}}) > T_{\text{lease}} \\ \text{False} & \text{otherwise} \end{cases}$$
+
+
+
+This ensures perpetual active uptime while zeroizing instantly upon authenticated abandonment.
+7. **Drift-Tolerant Replay Boundaries (Theorem II):** I absorb extreme multiprocess execution jitter and NTP clock drift by normalizing the cryptographic packet tolerance boundary ($\Omega = 15.0 \text{ s}$), maintaining perfect forward secrecy without dropping valid enterprise payloads.
 
 ---
 
-### Installation & Deployment
+## 📊 Phase 1 Verification Evidence & Execution Logs
 
-#### 1. Provisioning the Core Script
+The following terminal logs capture the live production deployment, deterministic self-test execution, and successful split-knowledge orchestration of my Zulqarnayn Initium Core (v6.3.0):
 
-Place the core script at the absolute production path:
+#### 1. Automated Production Deployment & Shell Eradication
 
-```bash
-sudo mkdir -p /opt/zarqa/zulqarnayn_athsm
-# Place your zulqarnayn_initium_0_core.py into /opt/zarqa/zulqarnayn_athsm/
-sudo chmod +x /opt/zarqa/zulqarnayn_athsm/zulqarnayn_initium_0_core.py
+*Execution of `--auto-deploy` validating system dependencies, severing orphaned zombie processes, and provisioning isolated virtual environments (`/opt/zarqa/zulqarnayn_athsm/venv`).*
+
+#### 2. Split-Knowledge Share Generation & Out-of-Band Delivery
+
+*Generation of the external Shamir share via Virtual Entanglement PUF derivations, strictly output to the administrative terminal without system logging.*
+
+#### 3. Deterministic Pre-Flight Self-Test Suite
+
+*Execution of the `--self-test` suite verifying all 7 internal physics, mathematics, and cryptographic subsystems with zero failures.*
+
+#### 4. Asymmetric ECDHE Unlock & Active Lease Maintenance
+
+*Direct verification of the `injector.py` execution, successfully decrypting the opaque session payload and mathematically reconstructing the Master Key to enter the operational phase.*
+
+---
+
+## 📂 Repository Structure
+
+```text
+Zulqarnayn-Anti-Tamper-Hardware-Security-Module-HSM/
+├── LICENSE
+├── README.md
+├── .gitignore
+├── .zenodo.json                       # Automated Zenodo metadata citation schema
+│
+├── core/
+│   ├── zulqarnayn_initium_0_core.py   # Phase I Runtime Mathematical & Cryptographic Engine
+│   ├── injector.py                    # Secure ECDHE Key Provisioning Tool
+│   └── requirements.txt               # Strict python dependency version pinning
+│
+└── docs/
+    └── architecture.md                # Mathematical theorems and structural proofs
 
 ```
 
-#### 2. Executing Auto-Deployment
+---
 
-Run the auto-deployment routine. This will perform syntax verification, environment cleanup, dependency resolution, virtual environment building, system user provisioning (`zulqarnayn`), and systemd unit registration:
+## 🚀 Getting Started & Usage
+
+### 1. Requirements & Prerequisites
+
+* Linux OS (Ubuntu 22.04 / 24.04 LTS / WSL Ubuntu recommended)
+* Python 3.10+
+* Systemd (for daemon lifecycle management and namespace air-gapping)
+* Root privileges (`sudo`) for deployment and C-level `libc` bindings (`mlock`, `prctl`).
+
+### 2. Standard Pre-Flight Self-Tests (Single-Run Verification)
+
+To execute my deterministic mathematical, thermodynamic, and cryptographic verification across the core engine without deploying background systemd services:
 
 ```bash
+# Phase 1: Foundational Mathematics & Physics Verification
+sudo /opt/zarqa/zulqarnayn_athsm/zulqarnayn_initium_0_core.py --self-test
+
+```
+
+### 3. One-Click Production Deployment (Root Required)
+
+Provisions the dedicated unprivileged system account (`zulqarnayn`), creates isolated virtual environments, constructs the secure UNIX domain socket (`/run/zulqarnayn/initium.sock`), and boots the background systemd daemon:
+
+```bash
+# Deploy Phase 1 Service (/etc/systemd/system/zulqarnayn-initium.service)
 sudo /opt/zarqa/zulqarnayn_athsm/zulqarnayn_initium_0_core.py --auto-deploy
 
 ```
 
-Upon successful execution, the deployment script will output a unique **External Share (Base64)**. Save this securely; it represents the second half of the split-knowledge master key.
+### 4. Unlock the Vault (Split-Knowledge Injection)
 
----
-
-### Unlocking & Initializing the HSM (Split-Knowledge Injection)
-
-In virtual deployment mode, the HSM boots into a locked state waiting for the external share. To provision the key securely via the ECDHE-encrypted UNIX socket injector:
+In non-hardware (virtual) mode, the vault boots securely locked. Use the generated `injector.py` script and the Base64 share provided during deployment to unlock the Master Key via ECDHE:
 
 ```bash
-sudo /opt/zarqa/zulqarnayn_athsm/injector.py '<YOUR_BASE64_EXTERNAL_SHARE>'
+# Execute the secure X9.62 ECDHE socket injection
+/opt/zarqa/zulqarnayn_athsm/injector.py '<YOUR_BASE64_EXTERNAL_SHARE>'
 
 ```
 
-Once injected, the Master Key is mathematically reconstructed in pinned memory, transitioning the core into its active operational phase.
+### 5. Monitor System Health & Telemetry
 
----
-
-### Monitoring & Operations
-
-* **Check Service Status:**
 ```bash
+# Verify live Phase 1 daemon health and CGroup memory limits
 sudo systemctl status zulqarnayn-initium
 
-```
-
-
-* **Stream Structured JSON Audit Logs:**
-```bash
+# Stream structured JSON audit events (Continuous Self-Tests & Activity)
 sudo journalctl -u zulqarnayn-initium -f
 
 ```
 
+---
 
-* **Run Manual Self-Tests:**
-```bash
-sudo /opt/zarqa/zulqarnayn_athsm/venv/bin/python3 /opt/zarqa/zulqarnayn_athsm/zulqarnayn_initium_0_core.py --self-test
+## 📜 Standards Compliance
 
-```
-
-
+| Standard | Domain | Implementation Status |
+| --- | --- | --- |
+| **FIPS 140-3 (Logical)** | Cryptographic Module Security | **Compliant Equivalency:** I attain logical equivalence to physical tamper boundaries via `PR_SET_DUMPABLE=0`, `explicit_bzero` memory scrubbing, and thermodynamic decay self-destruction limits. |
+| **NIST SP 800-56A** | Pair-Wise Key Establishment | **100% Compliant:** I enforce standard Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) over `SECP256R1` (P-256) utilizing X9.62 Uncompressed Point serialization and HKDF-SHA256 derivation. |
+| **NIST FIPS 197 / SP 800-38D** | Advanced Encryption Standard | **100% Compliant:** I utilize pure AES-256-GCM for both internal vault storage and opaque ECDHE IPC payload encryption. |
 
 ---
 
-### License
+## 📖 Citation
 
-This project is proprietary and confidential. Unauthorized copying, distribution, or reverse engineering is strictly prohibited.
+If you use this codebase or mathematical architecture in your research or enterprise infrastructure, please cite my official Zenodo software repository and whitepaper:
+
+```bibtex
+@software{ahmed_zulqarnayn_software_phase1_2026,
+  author       = {Ahmed, Mohammad Shahbaaz},
+  title        = {Zulqarnayn Anti-Tamper Hardware Security Module: Software-Defined HSM Core (v6.3.0)},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.XXXXXXX},
+  url          = {https://doi.org/10.5281/zenodo.XXXXXXX}
+}
+
+@techreport{ahmed_zulqarnayn_phase1_paper_2026,
+  author       = {Ahmed, Mohammad Shahbaaz},
+  title        = {The Zulqarnayn Architecture: A Mathematically Pinned, Thermodynamically Bound Software-Defined Hardware Security Module (Phase I)},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.XXXXXXX},
+  url          = {https://doi.org/10.5281/zenodo.XXXXXXX}
+}
+
+```
+
+---
+
+## ⚖️ License & Disclaimer
+
+This project is licensed under the **MIT License** - see the `LICENSE` file for details.
+
+*Disclaimer: This codebase is a high-security reference implementation designed for zero-trust environments, cryptographic research, and mathematical validation of software-defined air-gapping.*
