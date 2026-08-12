@@ -310,8 +310,8 @@ If you use this codebase or mathematical architecture in your research or enterp
   title        = {Zulqarnayn Architectura SD-HSM: Enterprise Core (v16.0.6)},
   year         = {2026},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.21874350},
-  url          = {https://doi.org/10.5281/zenodo.21874350}
+  doi          = {10.5281/zenodo.21904045},
+  url          = {https://doi.org/10.5281/zenodo.21904045}
 }
 
 @techreport{ahmed_zulqarnayn_phase2_paper_2026,
